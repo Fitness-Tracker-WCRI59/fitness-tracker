@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
+    "start": "nodemon server/server.js --mode production",
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --mode development --open --hot nodemon server/server.js"
+    "dev": "webpack-dev-server --mode development --open --hot"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/Fitness-Tracker-WCRI59/fitness-tracker#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2"
@@ -31,6 +34,8 @@
     "babel-loader": "^9.1.3",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.1",
     "nodemon": "^3.0.1",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
