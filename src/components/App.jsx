@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './Login';
+import Dashboard from './Dashboard';
+import Signup from './Signup';
+
 
 class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Hello, World!</h1>
-      </div>
+      <Router>
+        <Routes>
+          <Route path ='/' element={<Login/>} />
+          <Route path ='/signup' element={<Signup/>} />
+          <Route path ='/main' element={<Dashboard/>} />
+        </Routes>
+      </Router>
     )
   }
 
