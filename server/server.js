@@ -7,6 +7,12 @@ require('dotenv').config();
 const PORT = 3000;
 
 
+// require controllers
+const cookieController = require('./controllers/cookieController') 
+const sessionController = require('./controllers/sessionController')
+const userController = require('./controllers/userController')
+const statsController = require('./controllers/statsController')
+
 // const mongoURI = process.env.DB_URI
 const mongoURI = 'mongodb+srv://jmabagat:WHH17fuJLbmCmqKo@cluster0.k6q6azw.mongodb.net/'
 
@@ -24,24 +30,35 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.post('/login', (req, res) => {
-  // verify user --> start session --> set ssidcookie
-  // redirect to /dashboard, on that get rout check if user has a session (handle in sessionController.isLoggedIn middleware) 
-})
+app.post('/login',
+  userController.verifyUser,
+  sessionController.startSession,
+  cookieController.setSSIDCookie,
+  (req, res) => res.status(200).json(res.locals));
 
-app.post('/signup', (req, res) => {
-  // route for user to sign up. send to userController.createUser --> startSession --> setSSIDCookie. Then redirect to /dashboard
-})
 
-app.get('/dashboard', (req, res) => {
-  // check if user is logged in
-})
+// create user
+app.post('/signup', 
+  userController.createUser,
+  sessionController.startSession, 
+  cookieController.setSSIDCookie, 
+  (req, res) =>  res.status(200).json(res.locals.user));
 
+  // check if user has active session when trying to access /main
+app.get('/main',
+ sessionController.isLoggedIn, 
+ (req, res) => res.status(200).json({message: 'User is Logged In!'}))
+
+ app.patch('/stats', statsController.updateStats, (req, res) => {
+  res.sendStatus(200)
+ })
 
 
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.resolve(__dirname, '../dist/index.html'))
 })
+
+
 
 app.use((req, res) => res.status(404).send('Error page not found'))
 
@@ -51,10 +68,9 @@ app.use((err, req, res, next) => {
     status: 500,
     message: { err: 'An error occurred' },
   };
-  console.log(req, res);
   const errObj = Object.assign({}, defaultErr, err);
   console.log(errObj.log);
-  return res.status(errorObj.status).json(errObj.message);
+  return res.status(errObj.status).json(errObj.message);
 })
 
 
