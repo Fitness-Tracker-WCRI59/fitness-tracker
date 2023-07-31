@@ -138,7 +138,7 @@ const Dashboard = () => {
     
 
     const minutes = dailyBurnCalories / (3.5 * weight * 0.45 / 200);
-    setMinutes([Math.floor(minutes / 11.5), Math.floor(minutes / 2), Math.floor(minutes / 8)]);
+    setMinutes([Math.floor(minutes / 11.5).toLocaleString("en-US"), Math.floor(minutes / 2).toLocaleString("en-US"), Math.floor(minutes / 8).toLocaleString("en-US")]);
     dailyBurnCalories = dailyBurnCalories.toLocaleString("en-US");
     setCalculate(dailyBurnCalories);
   }
