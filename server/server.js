@@ -61,7 +61,9 @@ app.get('/main',
 //   return res.status(200).sendFile(path.resolve(__dirname, '../dist/index.html'))
 // })
 
-
+app.delete('/logout', sessionController.endSession, cookieController.removeSSIDCookie, (req, res) => {
+  res.status(200).json('Session has ended');
+})
 
 app.use((req, res) => res.status(404).send('Error page not found'))
 
