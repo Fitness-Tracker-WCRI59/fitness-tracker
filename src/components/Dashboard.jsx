@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -17,33 +17,77 @@ const Dashboard = () => {
   const [updateWeight, setUpdateWeight] = useState(false);
   //saves the value in the text box
   const [weightInput, setWeightInput] = useState('');
-  const [calories, setCalories] = useState(2000);
-  const [days, setDays] = useState(30);
+  const [calories, setCalories] = useState(0);
+  const [days, setDays] = useState(0);
+  const [activityLevel, setActivityLevel] = useState(0);
+  const [calculate, setCalculate] = useState('');
+  const [fieldsFilled, setFieldsFilled] = useState(false);
+  const [displayCalculate, setDisplayCalculate] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
+  
   const writeToDB = () => {
-      setWeight(weightInput);
+    setWeight(Number(weightInput));
     //add submit logic in here once server is setup
 
   }
 
+  const areFieldsFilled = () => {
+    if (!calories || !days || !activityLevel) {
+      setDisplayCalculate(false);
+
+    }
+    else {
+      calculateCalories();
+      setDisplayCalculate(true);
+
+      setFieldsFilled(true);
+    }
+  }
+
   const calculateCalories = () => {
+    console.log("calculating calories for : " + calories + " " + days + "days " + activityLevel + ' activityLevel');
+    const metabolicRate = sex === 'male' ? 66.47 + (6.24 * Number(weight)) + (12.7 * Number(height)) - (6.755 * Number(age)) : 655.1 + (4.35 * Number(weight)) + (4.7 * Number(height)) - (4.7 * Number(age));
 
-    const metabolicRate = sex === 'male' ? (66.47 * Number(weight)) + (12.7* Number(height)) - (6.755 * Number(age)) : 655.1 +(4.35* Number(weight)) + (4.7* Number(height)) - (4.7 * Number(age));
+    const totalWeightLossCalories = (Number(weight) - Number(goal)) * 3500;
+    const dailyWeightLossCalories = totalWeightLossCalories / Number(days);
+    let activity = 0;
 
-    const res = ((Number(weight) - Number(goal)) * 3500 )/( Number(days) + Number(calories) - metabolicRate);
-    return res;
+    switch (activityLevel) {
+      case 1:
+        activity = 1.2;
+        break;
+      case 2:
+        activity = 1.375;
+        break;
+      case 3:
+        activity = 1.55;
+        break;
+      case 4:
+        activity = 1.725;
+        break;
+      case 5:
+        activity = 1.9;
+        break;
+      default:
+        activity = 1.4;
+    }
+    console.log(activity);
+    const dailyBurnCalories = Math.floor(dailyWeightLossCalories + Number(calories) - metabolicRate * activity);
+    setCalculate(dailyBurnCalories);
   }
 
   useEffect(() => {
-    calculateCalories();
-  }, [days, calories]);
+    areFieldsFilled();
+    setAnimate(true);
+  }, [days, calories, activityLevel, weight, animate]);
 
   const toggleState = () => {
-    if(updateWeight)
+    if (updateWeight)
       writeToDB();
     setUpdateWeight(!updateWeight);
   }
- 
+
   const handleEnterPress = (e) => {
     if (e.key === 'Enter') {
       toggleState();
@@ -60,54 +104,57 @@ const Dashboard = () => {
   return (
     <div>
 
-    
-    <div className='nav-bar'>
 
-    <div className='nav-bar-component'>{getDate()}</div>
-    <button className='nav-bar-component' id='update-weight-button' onClick= {toggleState}>UPDATE WEIGHT</button>
-  {updateWeight && <input className='nav-bar-component' type="text" onKeyDown={handleEnterPress} onChange = {(e) => setWeightInput(e.target.value)} placeholder='New Weight Goal... '></input>}
-    
-    
-    
-    
-    
-    
-    
-    
-    <div className='nav-bar-component'>{`${firstName} ${lastName}`}</div>
+      <div className='nav-bar'>
 
-    </div>
+        <div className='nav-bar-component'>{getDate()}</div>
+        <button className='nav-bar-component' id='update-weight-button' onClick={toggleState}>UPDATE WEIGHT</button>
+        {updateWeight && <input id='weight-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPress} onChange={(e) => {setWeightInput(Number(e.target.value)); setAnimate(false)}} placeholder='Current Weight... '></input>}
 
-    <div className='main-container'> 
 
-      <div className='stats-outer-container'> 
-
-        <div className='stats-container'> Your current weight: {weight}
-
-        </div>
-        <div className='stats-container'> Your desired weight: {goal}
-
-        </div>
-        <div className='stats-container'> How many calories do you eat a day on average?
-        <input className='stats-input' onChange = {(e) => setCalories(e.target.value)}> 
-
-        </input>
-
-        </div>
-        <div className='stats-container'> In how many days do you want to achieve your goal?
-        <input className='stats-input' onChange = {(e) => setDays(e.target.value)}></input>
-        </div>
+        <div className='nav-bar-component'>{`${firstName} ${lastName}`}</div>
 
       </div>
 
-      <div className='calc-container'> calc container
+      <div className='main-container'>
 
+        <div className='stats-outer-container'>
+
+          <div className='stats-container'> Your current weight: <span style={{ fontWeight: 'bold' }}>{weight} lbs</span>
+
+          </div>
+          <div className='stats-container'> Your target weight: <span style={{ fontWeight: 'bold' }}>{goal} lbs</span>
+
+          </div>
+          <div className='stats-container'> How many <strong style={{display: 'inline'}}>calories</strong> do you eat a day on average?
+            <input className='stats-input' onChange={(e) => {setCalories(Number(e.target.value)); setAnimate(false)}}>
+
+            </input>
+
+          </div>
+          <div className='stats-container'> In how many <strong>days</strong> do you want to achieve your goal?
+            <input className='stats-input' onChange={(e) => {setDays(Number(e.target.value)); setAnimate(false)}}></input>
+          </div>
+
+          <div className='stats-container'> On a scale of <strong>1 - 5</strong> what is your activity level?
+            <input className='stats-input' onChange={(e) => {setActivityLevel(Number(e.target.value)); setAnimate(false)}}></input>
+          </div>
+
+        </div>
+
+        <div className='calc-container'>
+          { fieldsFilled ? <div className = 'conditional-container'>
+            <p>You need to burn</p>
+            {<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? calculate : <br/>}</p>}    
+            <p>calories per day to reach your target weight</p>
+          </div> : 
+          <div>Please input your data!</div>}
+
+
+        </div>
 
 
       </div>
-
-
-    </div>
 
     </div>
   )

@@ -8,10 +8,10 @@ const Signup = () => {
   const navigate = useNavigate();
   const [isSuccess, setisSuccess] = useState(false);
   const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
   const [sex, setSex] = useState('');
-  const [goal, setGoal] = useState('');
+  const [goal, setGoal] = useState(0);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -44,7 +44,7 @@ const Signup = () => {
         <input className='input-fields' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password...'></input>
         <input className='input-fields' type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name...'></input>
         <input className='input-fields' type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name...'></input>
-        <input className='input-fields' type="text" value={age} onChange={(e) => setAge(e.target.value)} placeholder='Age...'></input>
+        <input className='input-fields' type="text" value={age} onChange={(e) => setAge(Number(e.target.value))} placeholder='Age...'></input>
         {/* <input className='input-fields' type="text" value={sex} onChange = {(e) => setSex(e.target.value)} placeholder='Sex...'></input> */}
         <div className='input-fields' id='sex'>
           <label htmlFor='male'>Male</label>
@@ -52,9 +52,9 @@ const Signup = () => {
           <label htmlFor='male'>Female</label>
           <input className='input-radio' id='female' type='radio' value='Female' name='sex' onChange={(e) => setSex(e.target.value)}></input>
         </div>
-        <input className='input-fields' type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder='Height in inches...'></input>
-        <input className='input-fields' type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder='Weight in lbs...'></input>
-        <input className='input-fields' type="text" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder='Goal Weight in lbs...'></input>
+        <input className='input-fields' type="text" value={height} onChange={(e) => setHeight(Number(e.target.value))} placeholder='Height in inches...'></input>
+        <input className='input-fields' type="text" value={weight} onChange={(e) => setWeight(Number(e.target.value))} placeholder='Weight in lbs...'></input>
+        <input className='input-fields' type="text" value={goal} onChange={(e) => setGoal(Number(e.target.value))} placeholder='Goal Weight in lbs...'></input>
         <div className="login-button-container">
           <button className="login-buttons" id="signup-button" onClick={testFunc}>Sign Up</button>
         </div>
