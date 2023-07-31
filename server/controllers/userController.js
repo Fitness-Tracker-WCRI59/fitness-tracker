@@ -53,7 +53,7 @@ userController.createUser = (req, res, next) => {
         goal,
     }) 
     .then((user) => {
-        res.locals.user = user.id;
+        res.locals._id = user._id;
         return next();
     })
     .catch((err) => {

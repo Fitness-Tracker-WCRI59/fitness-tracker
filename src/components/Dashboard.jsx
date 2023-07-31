@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [updateWeight, setUpdateWeight] = useState(false);
   //saves the value in the text box
   const [weightInput, setWeightInput] = useState('');
+  const [goalInput, setGoalInput] = useState('');
   const [calories, setCalories] = useState(0);
   const [days, setDays] = useState(0);
   const [activityLevel, setActivityLevel] = useState(0);
@@ -21,26 +22,40 @@ const Dashboard = () => {
   const [fieldsFilled, setFieldsFilled] = useState(false);
   const [displayCalculate, setDisplayCalculate] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [updateWeightGoal, setUpdateWeightGoal] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-      fetch('/stats').then(response => response.json()).then(data => {
-        console.log(data);
-        setAge(data.age);
-        setHeight(data.height);
-        setWeight(data.weight);
-        setSex(data.sex);
-        setGoal(data.goal);
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-      }).catch (error => {
-        console.log(error);
-      })
+    fetch('/stats').then(response => response.json()).then(data => {
+      console.log(data);
+      setAge(data.age);
+      setHeight(data.height);
+      setWeight(data.weight);
+      setSex(data.sex);
+      setGoal(data.goal);
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+    }).catch(error => {
+      console.log(error);
+    })
   }, []);
 
+  const logout = async () => {
+    try {
+      const response = await fetch('/logout', {
+        method: 'DELETE',
 
+      })
+      if (response.ok)
+        navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const writeToDB = async () => {
-    if (!Number(weightInput))
+    if (isNaN(Number(weightInput)))
       return;
     setWeight(Number(weightInput));
     try {
@@ -49,7 +64,25 @@ const Dashboard = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ weight: Number(weightInput), goal: goal })
+        body: JSON.stringify({ weight: Number(weightInput) })
+      })
+      const data = await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const writeToDB2 = async () => {
+    if (isNaN(Number(goalInput)))
+      return;
+    setGoal(Number(goalInput));
+    try {
+      const response = await fetch('/stats', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ goal: Number(goalInput) })
       })
       const data = await response.json();
     } catch (error) {
@@ -102,6 +135,11 @@ const Dashboard = () => {
     if (dailyBurnCalories < 0) {
       dailyBurnCalories = 0;
     }
+
+
+    const minutes = dailyBurnCalories / (3.5 * weight * 0.45 / 200);
+    setMinutes([Math.floor(minutes / 11.5).toLocaleString("en-US"), Math.floor(minutes / 2).toLocaleString("en-US"), Math.floor(minutes / 8).toLocaleString("en-US")]);
+    dailyBurnCalories = dailyBurnCalories.toLocaleString("en-US");
     setCalculate(dailyBurnCalories);
   }
 
@@ -114,11 +152,27 @@ const Dashboard = () => {
     if (updateWeight)
       writeToDB();
     setUpdateWeight(!updateWeight);
+
+  }
+
+  const toggleStateGoal = () => {
+    if (updateWeightGoal)
+      writeToDB2();
+    setUpdateWeightGoal(!updateWeightGoal);
   }
 
   const handleEnterPress = (e) => {
     if (e.key === 'Enter') {
+      setAnimate(false)
       toggleState();
+    }
+  }
+
+  const handleEnterPressGoal = (e) => {
+    if (e.key === 'Enter') {
+      setAnimate(false)
+      toggleStateGoal();
+
     }
   }
 
@@ -133,9 +187,17 @@ const Dashboard = () => {
     <div>
       <div className='nav-bar'>
         <div className='nav-bar-component'>{getDate()}</div>
-        <button className='nav-bar-component' id='update-weight-button' onClick={toggleState}>UPDATE WEIGHT</button>
-        {updateWeight && <input id='weight-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPress} onChange={(e) => { setWeightInput(Number(e.target.value)); setAnimate(false) }} placeholder='Current Weight... '></input>}
+        <button className='nav-bar-component' id='update-weight-button' onClick={() => setUpdateWeight(!updateWeight)}>UPDATE WEIGHT</button>
+        {updateWeight && <input id='weight-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPress} onChange={(e) => { setWeightInput(e.target.value); }} placeholder='Current Weight... '></input>}
+
+
+        <button className='nav-bar-component' id='update-goal-button' onClick={() => setUpdateWeightGoal(!updateWeightGoal)}>UPDATE GOAL</button>
+        {updateWeightGoal && <input id='goal-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPressGoal} onChange={(e) => { setGoalInput(e.target.value); }} placeholder='Current Goal... '></input>}
         <div className='nav-bar-component'>{`${firstName} ${lastName}`}</div>
+        <button className='nav-bar-component' id='log-out-button' onClick={logout}>Log Out</button>
+
+
+
       </div>
       <div className='main-container'>
         <div className='stats-outer-container'>
@@ -155,10 +217,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='calc-container'>
-          {fieldsFilled ? <div className='conditional-container'>
-            <p>You need to burn</p>
-            {<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? calculate : <br />}</p>}
-            <p>calories per day to reach your target weight</p>
+          {fieldsFilled ? <div className='conditional-container-1'>
+            <div className='burn-box'>
+              <p>You need to burn</p>
+              {<p id='number' className={animate ? 'tracking-in-expand burn-calories' : ''} >{displayCalculate ? calculate : <br />}</p>}
+              <p>calories per day to reach your target weight</p>
+            </div>
+            <div className='exercise-box'>
+              <p>That's roughly {<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[0] : <br />}</p>} minutes of daily running</p>
+              <p>{<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[1] : <br />}</p>} minutes of walking, or</p>
+              <p>{<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[2] : <br />}</p>} minutes of bicycling!</p> </div>
           </div> :
             <div>Please input your data!</div>}
         </div>

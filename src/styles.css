@@ -7,7 +7,7 @@ body {
   height: 100vh;
   overflow: hidden;
   background: rgb(0,36,11);
-  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(204,247,0,1) 0%, rgba(212,255,215,1) 90%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(122,244,122,1) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
 }
 
 .login-container {
@@ -20,7 +20,7 @@ body {
   width: 400px;
   border-radius: 20px;
   background: rgb(0,36,11);
-  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(240,255,170,1) 0%, rgba(255,255,255,1) 97%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgb(171, 245, 171) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
 }
 
 .login-text {
@@ -45,7 +45,7 @@ body {
   border-radius: 8px;
   box-shadow: 1px 1px 3px rgb(223, 208, 208);
   background: rgb(0,36,11);
-background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(215,252,214,1) 0%, rgba(247,176,176,1) 95%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
 }
 
 .login-button-container {
@@ -118,7 +118,7 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(171,255,170,1) 0%, r
   border-width: 1px;
   box-shadow: 1px 1px 3px rgb(0, 0, 0);
   background: rgb(0,36,11);
-background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
 }
 
 .stats-outer-container {
@@ -149,7 +149,7 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, r
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 30px;
+  font-size: 20px;
   text-align: center;
   align-items: center;
   border-style: solid;
@@ -158,6 +158,12 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, r
   border-width: 1px;
   box-shadow: 1px 1px 3px rgb(0, 0, 0);
 }
+
+.calc-container p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .conditional-container {
   display: flex;
   flex-direction: column;
@@ -213,6 +219,25 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, r
   text-align: center;
 }
 
+#update-goal-button {
+  background-color: transparent;
+  border: none;
+  color: blue;
+}
+
+#update-goal-button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#goal-input {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
+}
+
 .stats-input {
   margin-top: 10px;
   width: 30%;
@@ -232,4 +257,35 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, r
   font-size: 80px;
   margin: 0;
   font-weight: bolder;
+}
+
+#log-out-button {
+  background-color: transparent;
+  border: none;
+  color: rgb(255, 0, 0);
+}
+
+#log-out-button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.burn-calories {
+  color: rgb(211, 35, 35);
+}
+
+.burn-box {
+  border-style: solid;
+  padding: 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-bottom: 10px;
+}
+
+.exercise-box {
+  border-style: solid;
+  padding: 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-bottom: 5px;
 }

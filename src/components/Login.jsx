@@ -41,7 +41,7 @@ const Login = () => {
         <h1 className='login-text'>WEIGHT LOSS APP!!!!!</h1>
         <img className='login-pic' src="https://d26oc3sg82pgk3.cloudfront.net/files/media/edit/image/49067/large_thumb%402x.png"></img>
         <input className='input-fields' type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username...' ></input>
-        <input className='input-fields' type="text" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password...' ></input>
+        <input className='input-fields' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password...' ></input>
         <div className="login-button-container">
           <button className="login-buttons" id="login-button" onClick={handleLoginClick}>Log In</button>
           <button className="login-buttons" id="signup-button" onClick={handleSignupClick}>Sign Up</button>

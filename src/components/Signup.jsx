@@ -17,7 +17,7 @@ const Signup = () => {
 
   const handleSignup = async () => {
     console.log(sex);
-    if (sex !== 'male' && sex !== 'female') {
+    if ((sex !== 'male' && sex !== 'female') || (isNaN(Number(age)) && isNaN(Number(height)) && isNaN(Number(weight)) && isNaN(Number(goal)))) {
       setisSuccess(false);
       return;
     }
@@ -27,11 +27,11 @@ const Signup = () => {
       password: password,
       firstName: firstName,
       lastName: lastName,
-      age: age,
+      age: Number(age),
       sex: sex,
-      height: height,
-      weight: weight,
-      goal: goal
+      height: Number(height),
+      weight: Number(weight),
+      goal: Number(goal)
     }
     console.log(obj);
     try {
@@ -64,20 +64,20 @@ const Signup = () => {
         <input className='input-fields' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password...' required></input>
         <input className='input-fields' type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name...' required></input>
         <input className='input-fields' type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name...' required></input>
-        <input className='input-fields' type="text" value={age} onChange={(e) => setAge(Number(e.target.value))} placeholder='Age...' required></input>
+        <input className='input-fields' type="text" value={age} onChange={(e) => setAge(e.target.value)} placeholder='Age...' required></input>
         <div className='input-fields' id='sex'>
           <label htmlFor='male'>Male</label>
           <input className='input-radio' id='male' type='radio' value='male' name='sex' onChange={(e) => setSex(e.target.value)}></input>
           <label htmlFor='male'>Female</label>
           <input className='input-radio' id='female' type='radio' value='female' name='sex' onChange={(e) => setSex(e.target.value)}></input>
         </div>
-        <input className='input-fields' type="text" value={height} onChange={(e) => setHeight(Number(e.target.value))} placeholder='Height in inches...' required></input>
-        <input className='input-fields' type="text" value={weight} onChange={(e) => setWeight(Number(e.target.value))} placeholder='Weight in lbs...' required></input>
-        <input className='input-fields' type="text" value={goal} onChange={(e) => setGoal(Number(e.target.value))} placeholder='Goal Weight in lbs...' required></input>
+        <input className='input-fields' type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder='Height in inches...' required></input>
+        <input className='input-fields' type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder='Weight in lbs...' required></input>
+        <input className='input-fields' type="text" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder='Goal Weight in lbs...' required></input>
         <div className="login-button-container">
           <button className="login-buttons" id="signup-button" onClick={handleSignup}>Sign Up</button>
         </div>
-        {!isSuccess && <p style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color: 'red' }}>Please fill out all fields</p>}
+        {!isSuccess && <p style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color: 'red' }}>Please fill out all fields with correct values</p>}
       </div>
     </div>
   )
