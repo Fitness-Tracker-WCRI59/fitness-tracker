@@ -20,7 +20,7 @@ body {
   width: 400px;
   border-radius: 20px;
   background: rgb(0,36,11);
-  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(122,244,122,1) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgb(171, 245, 171) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
 }
 
 .login-text {
@@ -45,7 +45,7 @@ body {
   border-radius: 8px;
   box-shadow: 1px 1px 3px rgb(223, 208, 208);
   background: rgb(0,36,11);
-background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(215,252,214,1) 0%, rgba(247,176,176,1) 95%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
 }
 
 .login-button-container {
@@ -118,7 +118,7 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(171,255,170,1) 0%, r
   border-width: 1px;
   box-shadow: 1px 1px 3px rgb(0, 0, 0);
   background: rgb(0,36,11);
-background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, rgba(255,255,255,1) 91%);
 }
 
 .stats-outer-container {
