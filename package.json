@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
+    "start": "nodemon server/server.js --mode production",
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --mode development --open --hot nodemon server/server.js"
+    "dev": "webpack-dev-server --mode development --open "
   },
   "repository": {
     "type": "git",
