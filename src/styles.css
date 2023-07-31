@@ -7,7 +7,7 @@ body {
   height: 100vh;
   overflow: hidden;
   background: rgb(0,36,11);
-  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(204,247,0,1) 0%, rgba(212,255,215,1) 90%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(122,244,122,1) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
 }
 
 .login-container {
@@ -20,7 +20,7 @@ body {
   width: 400px;
   border-radius: 20px;
   background: rgb(0,36,11);
-  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(240,255,170,1) 0%, rgba(255,255,255,1) 97%);
+  background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(122,244,122,1) 0%, rgba(227,254,208,1) 100%, rgba(103,242,2,1) 100%);
 }
 
 .login-text {
