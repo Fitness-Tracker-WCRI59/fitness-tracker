@@ -26,7 +26,7 @@ const userSchema = new Schema({
 
 const User = mongoose.model('user', userSchema)
 
-// sets a schema for the user health stats
+// sets a schema for the user stats
 
 const statsSchema = new Schema({
   height: Number,
