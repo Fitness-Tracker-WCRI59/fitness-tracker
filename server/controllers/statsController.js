@@ -32,5 +32,22 @@ statsController.updateStats = (req, res, next) => {
         }}))
 }
 
+statsController.getUserInfo = (req, res, next) => {
+  console.log(req);
+  const {ssid} = req.cookies;
+  User.findById({_id: ssid})
+  .then(user => {
+    console.log(user);
+    const { firstName, lastName, age, sex, height, weight, goal } = user;
+    res.locals.userInfo = { firstName, lastName, age, sex, height, weight, goal }
+    return next();
+  }).catch (err => next({
+    log: 'error in statsController.getCookies',
+        message: {
+          err: `Error: ${err}`
+  }}))
+
+}
+
 
 module.exports = statsController;
