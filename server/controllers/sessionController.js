@@ -10,13 +10,23 @@ sessionController.startSession = (req, res, next) => {
         message: {
           err: `Error user id undefined`
         }})
-    Session.create({ cookieId: res.locals._id }).then(user => {
-        return next();
+    Session.find({cookieId: res.locals._id}).then(session => {
+      console.log(session)
+      if (session.length) return next();
+      else {
+        Session.create({ cookieId: res.locals._id }).then(user => {
+            return next();
+        }).catch(err => next({
+            log: 'error in sessionController.StartSession',
+            message: {
+              err: `Error creating session in db: ${err}`
+            }}));
+      }
     }).catch(err => next({
-        log: 'error in sessionController.StartSession',
-        message: {
-          err: `Error creating session in db: ${err}`
-        }}));
+      log: 'error in sessionController.StartSession',
+      message: {
+        err: `Error finding session in db: ${err}`
+      }}))
 }
 
 sessionController.isLoggedIn = (req, res, next) => {

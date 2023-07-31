@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, '../dist')));
+// app.use(express.static(path.join(__dirname, '../dist')));
 
 app.post('/login',
   userController.verifyUser,
@@ -53,10 +53,13 @@ app.get('/main',
   res.sendStatus(200)
  })
 
+ app.get('/stats', statsController.getUserInfo, (req, res) => {
+  res.status(200).json(res.locals.userInfo)
+ })
 
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.resolve(__dirname, '../dist/index.html'))
-})
+// app.get('/', (req, res) => {
+//   return res.status(200).sendFile(path.resolve(__dirname, '../dist/index.html'))
+// })
 
 
 
