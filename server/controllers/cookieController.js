@@ -15,4 +15,17 @@ cookieController.setSSIDCookie = (req, res, next) => {
     return next();
 }
 
+cookieController.removeSSIDCookie = (req, res, next) => {
+  try {
+    res.clearCookie('ssid');
+    return next();
+  } catch {
+    return next({
+      log: 'error in cookieController.removeSSIDCookie',
+      message: {
+        err: `Error trying to delete SSID cookie`
+      }})
+  }
+}
+
 module.exports = cookieController;

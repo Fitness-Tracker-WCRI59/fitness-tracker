@@ -11,7 +11,6 @@ sessionController.startSession = (req, res, next) => {
           err: `Error user id undefined`
         }})
     Session.find({cookieId: res.locals._id}).then(session => {
-      console.log(session)
       if (session.length) return next();
       else {
         Session.create({ cookieId: res.locals._id }).then(user => {
@@ -44,6 +43,25 @@ sessionController.isLoggedIn = (req, res, next) => {
         message: {err: 'An error occurred'},
       });
     });
+}
+
+sessionController.endSession = (req, res, next) => {
+    Session.findOneAndDelete({ cookieId: req.cookies.ssid })
+    .then((session) => {
+        if(!session) {
+          return next({
+            log: 'error in sessionController.endSession',
+            message: {
+              err: `Error there is no active session`
+            }})} else {
+                return next()
+            }
+    })
+    .catch(err => next({
+      log: 'error in sessionController.endSession',
+      message: {
+        err: `Error finding session in db: ${err}`
+      }}))
 }
 
 module.exports = sessionController;
