@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/Fitness-Tracker-WCRI59/fitness-tracker#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2"
