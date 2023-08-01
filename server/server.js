@@ -8,13 +8,13 @@ const PORT = 3000;
 
 
 // require controllers
-const cookieController = require('./controllers/cookieController') 
+const cookieController = require('./controllers/cookieController')
 const sessionController = require('./controllers/sessionController')
 const userController = require('./controllers/userController')
 const statsController = require('./controllers/statsController')
 
 // const mongoURI = process.env.DB_URI
-const mongoURI = 'mongodb+srv://jmabagat:WHH17fuJLbmCmqKo@cluster0.k6q6azw.mongodb.net/'
+const mongoURI = 'mongodb+srv://asokolov5924:Bballer59@mongod.jqlyc2c.mongodb.net/'
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -38,15 +38,15 @@ app.post('/login',
 
 
 // create user
-app.post('/signup', 
+app.post('/signup',
   userController.createUser,
-  sessionController.startSession, 
-  cookieController.setSSIDCookie, 
+  sessionController.startSession,
+  cookieController.setSSIDCookie,
   (req, res) =>  res.status(200).json(res.locals.user));
 
   // check if user has active session when trying to access /main
 app.get('/main',
- sessionController.isLoggedIn, 
+ sessionController.isLoggedIn,
  (req, res) => res.status(200).json({message: 'User is Logged In!'}))
 
  app.patch('/stats', statsController.updateStats, (req, res) => {
