@@ -34,7 +34,7 @@ userController.verifyUser = (req, res, next) => {
 
 
 userController.createUser = (req, res, next) => {
-    const { username, password, firstName, lastName, age, sex, height, weight, goal} = req.body;
+    const { username, password, firstName, lastName } = req.body;
 
     if (!username || !password || !firstName || !lastName)
     return next({
@@ -46,11 +46,6 @@ userController.createUser = (req, res, next) => {
         password, 
         firstName, 
         lastName, 
-        age, 
-        sex,
-        height,
-        weight,
-        goal,
     }) 
     .then((user) => {
         res.locals._id = user._id;
@@ -62,7 +57,22 @@ userController.createUser = (req, res, next) => {
             message: {err:  `Error trying to create user: ${err}`},
         });
     });
+
 };
+
+userController.updateStats = (req, res, next) => {
+    const { age: newAge, height: newHeight, sex: newSex, goal: newGoal, weight: newWeight } = req.body;
+    const { ssid } = req.cookies;
+    User.findByIdAndUpdate({_id: ssid}, {age: newAge, height: newHeight, sex: newSex, goal: newGoal, weight: newWeight}, {new: true})
+    .then(user => {
+        console.log(user);
+        return next();
+    }).catch(err => next({
+        log: 'error in userController.updateStats',
+        message: {
+          err: `Error: ${err}`
+        }}))
+}
 
 
 
