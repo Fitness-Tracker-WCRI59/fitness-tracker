@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const Navbar = ({ setUpdateWeight,
@@ -15,6 +15,7 @@ const Navbar = ({ setUpdateWeight,
     logout }) => {
     
     const navigate = useNavigate();
+    const location = useLocation();
 
     const getDate = () => {
         let today = new Date();
@@ -22,6 +23,7 @@ const Navbar = ({ setUpdateWeight,
         let formattedDate = today.toLocaleDateString('en-US', options);
         return formattedDate;
     };
+    let history = location.pathname === '/main' ? "HISTORY" : "GO BACK";
 
     return (
         <div className='nav-bar'>
@@ -32,7 +34,8 @@ const Navbar = ({ setUpdateWeight,
 
         <button className='nav-bar-component' id='update-goal-button' onClick={() => setUpdateWeightGoal(!updateWeightGoal)}>UPDATE GOAL</button>
         {updateWeightGoal && <input id='goal-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPressGoal} onChange={(e) => { setGoalInput(e.target.value); }} placeholder='Current Goal... '></input>}
-        <button className='nav-bar-component' id='history-button' onClick={() => navigate('/main/history')}>HISTORY</button>
+        <button className='nav-bar-component' id='history-button' onClick={() =>
+            location.pathname === '/main' ? navigate('/main/history') : navigate('/main')}>{history}</button>
         <div className='nav-bar-component'>{`${firstName} ${lastName}`}</div>
         <button className='nav-bar-component' id='log-out-button' onClick={logout}>Log Out</button>
         </div>
