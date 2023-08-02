@@ -14,12 +14,14 @@ const userController = require('./controllers/userController')
 const statsController = require('./controllers/statsController')
 
 // const mongoURI = process.env.DB_URI
-const mongoURI = 'mongodb+srv://jmabagat:WHH17fuJLbmCmqKo@cluster0.k6q6azw.mongodb.net/'
+const mongoURI = 'mongodb+srv://danykdev:HayEN8YCrPSwYPqO@cluster0.iks6thq.mongodb.net/'
+
+
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'fitness_tracker'
+  dbName: 'fitness-tracker'
 })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
@@ -38,18 +40,20 @@ app.post('/login',
 
 
 // create user
-app.post('/signup', 
-  userController.createUser,
+app.post('/signup',
+ userController.createUser, 
   sessionController.startSession, 
   cookieController.setSSIDCookie, 
-  (req, res) =>  res.status(200).json(res.locals.user));
+  (req, res) => {
+    res.status(200).json({successMessage: "Thanks for registering", user: res.locals.user});
+  } );
 
   // check if user has active session when trying to access /main
 app.get('/main',
  sessionController.isLoggedIn, 
  (req, res) => res.status(200).json({message: 'User is Logged In!'}))
 
- app.patch('/stats', statsController.updateStats, (req, res) => {
+ app.patch('/stats', userController.updateStats, (req, res) => { // redirecting to stats? 
   res.sendStatus(200)
  })
 
