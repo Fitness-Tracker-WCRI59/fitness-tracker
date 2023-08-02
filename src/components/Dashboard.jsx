@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar.jsx';
 import MainContainer from './MainContainer.jsx';
-import History from './History.jsx'
+import History from './History.jsx';
+import Pics from './Pics.jsx';
+import GamePlan from './GamePlan.jsx';
 
 const Dashboard = () => {
   const [age, setAge] = useState(0);
@@ -211,6 +213,12 @@ const Dashboard = () => {
             />} />
           <Route path='/history' element={
             <History 
+          />} />
+          <Route path='/pics' element={
+            <Pics
+          />} />
+          <Route path='/gameplan' element={
+            <GamePlan
           />} />
         </Routes>
       </div>

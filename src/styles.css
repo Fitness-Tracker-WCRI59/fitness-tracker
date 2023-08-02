@@ -289,3 +289,15 @@ background: linear-gradient(90deg, rgba(0,36,11,1) 0%, rgba(220,246,220,1) 0%, r
   border-width: 1px;
   margin-bottom: 5px;
 }
+
+#pics {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
