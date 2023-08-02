@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Routes, Route } from 'react-router-dom';
+import Navbar from './Navbar.jsx';
+import MainContainer from './MainContainer.jsx';
+import History from './History.jsx'
 
 const Dashboard = () => {
   const [age, setAge] = useState(0);
@@ -21,8 +24,8 @@ const Dashboard = () => {
   const [calculate, setCalculate] = useState('');
   const [fieldsFilled, setFieldsFilled] = useState(false);
   const [displayCalculate, setDisplayCalculate] = useState(false);
-  const [animate, setAnimate] = useState(false);
   const [updateWeightGoal, setUpdateWeightGoal] = useState(false);
+  const [animate, setAnimate] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const navigate = useNavigate();
 
@@ -176,60 +179,40 @@ const Dashboard = () => {
     }
   }
 
-  const getDate = () => {
-    let today = new Date();
-    let options = { year: 'numeric', month: 'long', day: 'numeric' };
-    let formattedDate = today.toLocaleDateString('en-US', options);
-    return formattedDate;
-
-  }
   return (
     <div>
-      <div className='nav-bar'>
-        <div className='nav-bar-component'>{getDate()}</div>
-        <button className='nav-bar-component' id='update-weight-button' onClick={() => setUpdateWeight(!updateWeight)}>UPDATE WEIGHT</button>
-        {updateWeight && <input id='weight-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPress} onChange={(e) => { setWeightInput(e.target.value); }} placeholder='Current Weight... '></input>}
-
-
-        <button className='nav-bar-component' id='update-goal-button' onClick={() => setUpdateWeightGoal(!updateWeightGoal)}>UPDATE GOAL</button>
-        {updateWeightGoal && <input id='goal-input' className='nav-bar-component' type="text" onKeyDown={handleEnterPressGoal} onChange={(e) => { setGoalInput(e.target.value); }} placeholder='Current Goal... '></input>}
-        <div className='nav-bar-component'>{`${firstName} ${lastName}`}</div>
-        <button className='nav-bar-component' id='log-out-button' onClick={logout}>Log Out</button>
-
-
-
-      </div>
+      <Navbar setUpdateWeight={setUpdateWeight} 
+      updateWeight={updateWeight} 
+      handleEnterPress={handleEnterPress} 
+      setWeightInput={setWeightInput} 
+      setUpdateWeightGoal={setUpdateWeightGoal} 
+      updateWeightGoal={updateWeightGoal} 
+      handleEnterPressGoal={handleEnterPressGoal}
+      setGoalInput={setGoalInput}
+      firstName={firstName}
+      lastName={lastName}
+      logout={logout}
+    />
       <div className='main-container'>
-        <div className='stats-outer-container'>
-          <div className='stats-container'> Your current weight: <span style={{ fontWeight: 'bold' }}>{weight} lbs</span>
-          </div>
-          <div className='stats-container'> Your target weight: <span style={{ fontWeight: 'bold' }}>{goal} lbs</span>
-          </div>
-          <div className='stats-container'> How many <strong style={{ display: 'inline' }}>calories</strong> do you eat a day on average?
-            <input className='stats-input' onChange={(e) => { setCalories(Number(e.target.value)); setAnimate(false) }}>
-            </input>
-          </div>
-          <div className='stats-container'> In how many <strong>days</strong> do you want to achieve your goal?
-            <input className='stats-input' onChange={(e) => { setDays(Number(e.target.value)); setAnimate(false) }}></input>
-          </div>
-          <div className='stats-container'> On a scale of <strong>1 - 5</strong> what is your activity level?
-            <input className='stats-input' onChange={(e) => { setActivityLevel(Number(e.target.value)); setAnimate(false) }}></input>
-          </div>
-        </div>
-        <div className='calc-container'>
-          {fieldsFilled ? <div className='conditional-container-1'>
-            <div className='burn-box'>
-              <p>You need to burn</p>
-              {<p id='number' className={animate ? 'tracking-in-expand burn-calories' : ''} >{displayCalculate ? calculate : <br />}</p>}
-              <p>calories per day to reach your target weight</p>
-            </div>
-            <div className='exercise-box'>
-              <p>That's roughly {<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[0] : <br />}</p>} minutes of daily running</p>
-              <p>{<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[1] : <br />}</p>} minutes of walking, or</p>
-              <p>{<p id='number' className={animate ? 'tracking-in-expand' : ''}>{displayCalculate ? minutes[2] : <br />}</p>} minutes of bicycling!</p> </div>
-          </div> :
-            <div>Please input your data!</div>}
-        </div>
+        <Routes>
+          <Route path='/' element={
+            <MainContainer
+              setCalories={setCalories} 
+              setAnimate={setAnimate}
+              setDays={setDays}
+              setActivityLevel={setActivityLevel}
+              weight={weight}
+              goal={goal}
+              fieldsFilled={fieldsFilled}
+              animate={animate}
+              displayCalculate={displayCalculate}
+              calculate={calculate}
+              minutes={minutes}
+            />} />
+          <Route path='/history' element={
+            <History 
+          />} />
+        </Routes>
       </div>
     </div>
   )
